@@ -16,11 +16,20 @@ module.exports = (sequelize, DataTypes) => {
   tutors.init({
     name:{
       type:DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isAlpha:{
+          msg:"the name can only have letters"
+        },
+        len:{
+          args:[2,24],
+          msg:"number of incorrect parameters"
+        } 
+      }
     },
     phone:{
       type:DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     city:{
       type:DataTypes.STRING,
@@ -28,7 +37,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     email:{
       type:DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isEmail: {
+          msg:  "checks for email format (foo@bar.com)"
+        } 
+      }
     },
     about: {
       type:DataTypes.STRING,
@@ -36,11 +50,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     img: {
       type:DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isUrl: true
+      }
     },
     password: {
       type:DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        len:  [6,  16]
+      }
     }
   }, {
     sequelize,

@@ -2,11 +2,11 @@ const express = require("express");
 const app = express();
 const port = process.env.port || 3000;
 const { sequelize } = require("./models/index.js");
+const routes = require('./routes')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.use(require("./routes"));
+routes(app)
 
 app.listen(port, () => {
   console.log(`Connecting ${port}`);
