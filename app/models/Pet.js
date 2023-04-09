@@ -3,36 +3,50 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class messages extends Model {
+  class Pet extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Pet.hasOne(models.Adoption, {
+        foreignKey:'pet_id'
+      })
+      Pet.belongsTo(models.Shelter,{
+        foreignKey:'shelter_id'
+      })
     }
   }
-  messages.init({
+  Pet.init({
     name: {
       type:DataTypes.STRING,
       allowNull: false
     },
-    phone: {
+    age: {
       type:DataTypes.STRING,
       allowNull: false
     },
-    name_pet: {
+    size: {
       type:DataTypes.STRING,
       allowNull: false
     },
-    message:{
+    personality: {
+      type:DataTypes.STRING,
+      allowNull: false
+    },
+    adopted:{
+      type:DataTypes.BOOLEAN,
+      allowNull:false
+    },
+    location:{
       type:DataTypes.STRING,
       allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'messages',
+    modelName: 'Pet',
+    freezeTableName: true
   });
-  return messages;
+  return Pet;
 };

@@ -11,5 +11,6 @@ routes(app)
 app.listen(port, () => {
   console.log(`Connecting ${port}`);
 
-  sequelize.authenticate().then(() => {console.log('Connect Succesfull')})
+  sequelize.sync({force:false}).then (() => {
+    console.log("Connection Full");}) 
 });
