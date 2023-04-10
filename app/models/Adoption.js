@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     
   }
   Adoption.init({
-    date: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Adoption',

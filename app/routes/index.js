@@ -1,10 +1,16 @@
 const bodyParser = require ('body-parser')
-const tutors = require('./tutorsRoute')
+const tutor = require('./tutorsRoute')
+const shelter = require('./sheltersRoute')
+const pet = require('./petsRoute')
+const adoption = require('./adoptionsRoute')
 
 
 module.exports = app => {
     app.use(
         bodyParser.json(),
-        tutors,
+        tutor,
+        shelter,
+        pet,
+        adoption
     )
 }

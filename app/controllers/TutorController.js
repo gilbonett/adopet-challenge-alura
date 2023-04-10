@@ -3,7 +3,7 @@ const database = require('../models')
 class TutorController {
     static async getTutorsAll(req, res){
         try {
-            const findTutors = await database.tutors.findAll()
+            const findTutors = await database.Tutor.findAll()
             return res.status(200).json(findTutors)
         } catch (error) {
             return res.status(500).json(error.message)
@@ -13,7 +13,7 @@ class TutorController {
     static async getTutorId(req, res){
         const id = req.params.id
         try {
-            const resultTutor = await database.tutors.findOne({
+            const resultTutor = await database.Tutor.findOne({
                 where: {
                     id: Number(id)
                 }
@@ -31,7 +31,7 @@ class TutorController {
     static async postTutor(req, res) {
         const addTutor = req.body 
         try {
-            const newTutor = await database.tutors.create(addTutor)
+            const newTutor = await database.Tutor.create(addTutor)
             return res.status(200).json(newTutor)
         } catch (error) {
             return res.status(500).json(error.message)
@@ -42,12 +42,12 @@ class TutorController {
         const uptadedTutor = req.body
         const id = req.params.id
         try {
-            const resultTutor = await database.tutors.findOne({
+            const resultTutor = await database.Tutor.findOne({
                 where: {id: Number(id)}
             })
             if(resultTutor !== null){
-            await database.tutors.update(uptadedTutor, {where: {id:Number(id)}})
-            const tutorUpdated = await database.tutors.findOne({where: {id:Number(id)}})
+            await database.Tutor.update(uptadedTutor, {where: {id:Number(id)}})
+            const tutorUpdated = await database.tutor.findOne({where: {id:Number(id)}})
             return res.status(200).json(tutorUpdated)
             } else {
                 return res.status(400).send({message:'tutor id not found'})
@@ -60,12 +60,12 @@ class TutorController {
     static async deleteTutor(req, res) {
         const id = req.params.id
         try {
-            const resultTutor = await database.tutors.findOne({
+            const resultTutor = await database.Tutor.findOne({
                 where: {id: Number(id)}
             })
             console.log(resultTutor) //TODO
             if(resultTutor !== null){
-                await database.tutors.destroy({where: {id : Number(id)}})
+                await database.Tutor.destroy({where: {id : Number(id)}})
                 return res.status(200).send({message: 'Tutor deleted successfully'})
             } else {
                 return res.status(400).send({message:'tutor id not found'})
