@@ -2,7 +2,7 @@ const bodyParser = require ('body-parser')
 const tutor = require('./tutorsRoute')
 const shelter = require('./sheltersRoute')
 const pet = require('./petsRoute')
-const adoption = require('./adoptionsRoute')
+const user = require('./usersRoute')
 
 
 module.exports = app => {
@@ -11,6 +11,6 @@ module.exports = app => {
         tutor,
         shelter,
         pet,
-        adoption
+        user
     )
 }

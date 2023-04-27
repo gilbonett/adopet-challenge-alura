@@ -1,4 +1,7 @@
+const Sequelize = require('sequelize')
 const database = require('../models')
+const { all } = require('../routes/petsRoute')
+
 
 class PetController {
     
