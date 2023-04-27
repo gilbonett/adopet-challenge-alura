@@ -4,10 +4,9 @@ const TutorController = require('../controllers/TutorController')
 const router = Router()
 
 router
-    .get('/tutor', TutorController.getTutorsAll)
-    .get('/tutor/:id', TutorController.getTutorId)
-    .post('/tutor', TutorController.postTutor)
-    .put('/tutor/:id', TutorController.updateTutor)
-    .delete('/tutor/:id', TutorController.deleteTutor)
+    .get('/user/tutors', TutorController.fetchAllTutors)
+    .get('/user/tutor/:id', TutorController.searchTutorById)
+    .put('/user/tutor/:id', TutorController.updateTutor)
+    .delete('/user/tutor/:id', TutorController.deleteTutor)
 
 module.exports = router

@@ -1,21 +1,27 @@
 const database = require('../models')
 
 class TutorController {
-    static async getTutorsAll(req, res){
+
+    static async fetchAllTutors(req, res){
         try {
-            const findTutors = await database.Tutor.findAll()
+            const findTutors = await database.User.findAll({
+                where: {
+                    role: 'tutor'
+                }
+            })
             return res.status(200).json(findTutors)
         } catch (error) {
             return res.status(500).json(error.message)
         }
     }
 
-    static async getTutorId(req, res){
-        const id = req.params.id
+    static async searchTutorById(req, res){
+        const {id} = req.params
         try {
-            const resultTutor = await database.Tutor.findOne({
+            const resultTutor = await database.User.findOne({
                 where: {
-                    id: Number(id)
+                    id: Number(id),
+                    role: 'tutor'
                 }
             })
             if(resultTutor !== null){
@@ -28,26 +34,16 @@ class TutorController {
         }
     }
 
-    static async postTutor(req, res) {
-        const addTutor = req.body 
-        try {
-            const newTutor = await database.Tutor.create(addTutor)
-            return res.status(200).json(newTutor)
-        } catch (error) {
-            return res.status(500).json(error.message)
-        }
-    }
-
     static async updateTutor(req, res) {
         const uptadedTutor = req.body
-        const id = req.params.id
+        const {id} = req.params
         try {
-            const resultTutor = await database.Tutor.findOne({
-                where: {id: Number(id)}
+            const resultTutor = await database.User.findOne({
+                where: {id: Number(id), role: 'tutor'}
             })
             if(resultTutor !== null){
-            await database.Tutor.update(uptadedTutor, {where: {id:Number(id)}})
-            const tutorUpdated = await database.tutor.findOne({where: {id:Number(id)}})
+            await database.User.update(uptadedTutor, {where: {id:Number(id)}})
+            const tutorUpdated = await database.User.findOne({where: {id:Number(id)}})
             return res.status(200).json(tutorUpdated)
             } else {
                 return res.status(400).send({message:'tutor id not found'})
@@ -58,15 +54,14 @@ class TutorController {
     }
 
     static async deleteTutor(req, res) {
-        const id = req.params.id
+        const {id}= req.params
         try {
-            const resultTutor = await database.Tutor.findOne({
-                where: {id: Number(id)}
+            const resultTutor = await database.User.findOne({
+                where: {id: Number(id), role: 'tutor'}
             })
-            console.log(resultTutor) //TODO
             if(resultTutor !== null){
-                await database.Tutor.destroy({where: {id : Number(id)}})
-                return res.status(200).send({message: 'Tutor deleted successfully'})
+                await database.User.destroy({where: {id : Number(id)}})
+                return res.status(200).send({message: `successfully deleted tutor ${id} `})
             } else {
                 return res.status(400).send({message:'tutor id not found'})
             }
