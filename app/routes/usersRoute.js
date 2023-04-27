@@ -7,7 +7,7 @@ const router = Router()
 
 router
     .get('/users', UsersController.fetchAllUsers) 
-    .post('/register', authController.Cadastro)
+    .post('/register', authController.Register)
     .post('/login', authController.Login)
 
 
