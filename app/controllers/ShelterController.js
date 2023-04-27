@@ -1,38 +1,33 @@
 const database = require('../models')
 
 class ShelterController {
-    static async getSheltersAll(req, res){
+    static async fetchAllShelters(req, res){
         try {
-            const findShelters = await database.Shelter.findAll()
+            const findShelters = await database.User.findAll({
+                where: {
+                    role: 'shelter'
+                }
+            })
             return res.status(200).json(findShelters)
         } catch (error) {
             return res.status(500).json(error.message)
         }
     }
 
-    static async getShelterId(req, res){
+    static async searchShelterById(req, res){
         const id = req.params.id
         try {
-            const resultShelter = await database.Shelter.findOne({
+            const resultShelter = await database.User.findOne({
                 where: {
-                    id: Number(id)
+                    id: Number(id),
+                    role: 'shelter'
                 }
             })
             if(resultShelter !== null){
                 return res.status(200).json(resultShelter)
             } else{
-                return res.status(400).send({message:'Shelter id not found'})
+                return res.status(400).send({message:`Shelter ${id} not found`})
             }
-        } catch (error) {
-            return res.status(500).json(error.message)
-        }
-    }
-
-    static async postShelter(req, res) {
-        const addShelter = req.body 
-        try {
-            const newShelter = await database.Shelter.create(addShelter)
-            return res.status(200).json(newShelter)
         } catch (error) {
             return res.status(500).json(error.message)
         }
@@ -40,17 +35,17 @@ class ShelterController {
 
     static async updateShelter(req, res) {
         const uptadedShelter = req.body
-        const id = req.params.id
+        const {id} = req.params
         try {
-            const resultShelter = await database.Shelter.findOne({
-                where: {id: Number(id)}
+            const resultShelter = await database.User.findOne({
+                where: {id: Number(id), role: 'shelter'}
             })
             if(resultShelter !== null){
-            await database.Shelter.update(uptadedShelter, {where: {id:Number(id)}})
-            const ShelterUpdated = await database.Shelter.findOne({where: {id:Number(id)}})
-            return res.status(200).json(ShelterUpdated)
+            await database.User.update(uptadedShelter, {where: {id:Number(id)}})
+            const shelterUpdated = await database.User.findOne({where: {id:Number(id)}})
+            return res.status(200).json(shelterUpdated)
             } else {
-                return res.status(400).send({message:'Shelter id not found'})
+                return res.status(400).send({message:`Shelter ${id} not found`})
             }
         } catch (error) {
             return res.status(500).json(error.message)
@@ -60,15 +55,14 @@ class ShelterController {
     static async deleteShelter(req, res) {
         const id = req.params.id
         try {
-            const resultShelter = await database.Shelter.findOne({
-                where: {id: Number(id)}
+            const resultShelter = await database.User.findOne({
+                where: {id: Number(id), role: 'shelter'}
             })
-            console.log(resultShelter) //TODO
             if(resultShelter !== null){
-                await database.Shelter.destroy({where: {id : Number(id)}})
-                return res.status(200).send({message: 'Shelter deleted successfully'})
+                await database.User.destroy({where: {id : Number(id)}})
+                return res.status(200).send({message: `successfully deleted shelter ${id} `})
             } else {
-                return res.status(400).send({message:'Shelter id not found'})
+                return res.status(400).send({message:'shelter id not found'})
             }
         } catch (error) {
             return res.status(500).json(error.message)

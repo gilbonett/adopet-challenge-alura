@@ -4,10 +4,9 @@ const ShelterController = require('../controllers/ShelterController')
 const router = Router()
 
 router
-    .get('/shelter', ShelterController.getSheltersAll)
-    .get('/shelter/:id', ShelterController.getShelterId)
-    .post('/shelter', ShelterController.postShelter)
-    .put('/shelter/:id', ShelterController.updateShelter)
-    .delete('/shelter/:id', ShelterController.deleteShelter)
+    .get('/user/shelters', ShelterController.fetchAllShelters)
+    .get('/user/shelter/:id', ShelterController.searchShelterById) 
+    .put('/user/shelter/:id', ShelterController.updateShelter)
+    .delete('/user/shelter/:id', ShelterController.deleteShelter)
 
 module.exports = router
